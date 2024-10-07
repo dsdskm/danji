@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 
 const app: Express = express();
-const port = 80;
+const port = 5000;
 const accountRouter = require("./router/accountRouter");
 
 app.get("/", (req: Request, res: Response) => {
