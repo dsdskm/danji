@@ -1,18 +1,12 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:latest
+FROM node:16
 
-# Update installed packages and install Apache
-RUN yum update -y && \
- yum install -y httpd
+WORKDIR /usr/src/app
 
-# Write hello world message
-RUN echo 'Hello World!' > /var/www/html/index.html
+COPY package*.json ./
 
-# Configure Apache
-RUN echo 'mkdir -p /var/run/httpd' >> /root/run_apache.sh && \
- echo 'mkdir -p /var/lock/httpd' >> /root/run_apache.sh && \
- echo '/usr/sbin/httpd -D FOREGROUND' >> /root/run_apache.sh && \
- chmod 755 /root/run_apache.sh
+RUN npm install --production
 
-EXPOSE 80
+COPY . .
 
-CMD /root/run_apache.sh
+EXPOSE 5000
+CMD ["node","src/index.js"]
